@@ -1,0 +1,7 @@
+  services:
+    restdb:
+      image: devnyzh/rest-jsondb
+      ports:
+        - 3030:3000
+      container_name: restdb
+      restart: always

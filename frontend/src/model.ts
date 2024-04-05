@@ -5,7 +5,7 @@ export type Author = {
 };
 export type AuthenticationResponse = {
   accessToken: string;
-  user: UserLogin;
+  user: User;
 };
 export type User = {
   email: string;

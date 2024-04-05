@@ -1,5 +1,5 @@
-import React, { ComponentProps } from "react";
 import { Field } from "formik";
+import { ComponentProps } from "react";
 
 function FormSingleInput(props: ComponentProps<typeof Field>) {
   const { children, ...restProps } = props;

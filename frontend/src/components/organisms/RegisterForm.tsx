@@ -1,5 +1,5 @@
 import { Form, Formik } from "formik";
-import React, { useState } from "react";
+import { useState } from "react";
 import LoginInput from "../molecules/LoginInput";
 import FormTwoButtons from "../atoms/FormTwoButtons";
 import { registerUser } from "../../services/UserService";

@@ -1,8 +1,7 @@
-import React from "react";
 import FormSingleInput from "../atoms/FormSingleInput";
 
 type LoginInputProps = {
-  failStatus: null | "Wrong_Password" | "No_User";
+  failStatus: null | string;
 };
 
 function LoginInput({ failStatus }: LoginInputProps) {
@@ -27,13 +26,8 @@ function LoginInput({ failStatus }: LoginInputProps) {
       >
         Passowrd:
       </FormSingleInput>
-      {failStatus == "No_User" && (
-        <p className="text-red-500 text-xs italic">
-          {"⚠️ user not found :( try registering"}
-        </p>
-      )}
-      {failStatus == "Wrong_Password" && (
-        <p className="text-red-500 text-xs italic">{"⚠️ Wrong Password :/"}</p>
+      {failStatus && (
+        <p className="text-red-500 text-xs italic">{`⚠️ ${failStatus}`}</p>
       )}
     </div>
   );

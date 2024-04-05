@@ -1,8 +1,4 @@
-import { Button, Pagination } from "@mui/material";
-import React, { useEffect, useState } from "react";
-import { Author, getAuthorPage } from "../../services/AuthorService";
-import { tokenValid } from "../../services/UserService";
-import { useNavigate } from "react-router-dom";
+import AuthorList from "../organisms/AuthorList";
 
 function AuthorsPage() {
   const nav = useNavigate();

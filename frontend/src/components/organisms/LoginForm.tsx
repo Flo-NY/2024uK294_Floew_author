@@ -9,9 +9,7 @@ import { UserLogin } from "../../model";
 
 function LoginForm() {
   const nav = useNavigate();
-  const [failStatus, setFailStatus] = useState<
-    null | "Wrong_Password" | "No_User"
-  >(null);
+  const [failStatus, setFailStatus] = useState<null | string>(null);
   const handleSubmit = (values: UserLogin) => {
     loginUser(values)
       .then(() => {
@@ -19,14 +17,11 @@ function LoginForm() {
         nav("/authors");
       })
       .catch((e: AxiosError) => {
-        switch (e.response?.data) {
-          case "Cannot find user":
-            setFailStatus("No_User");
-            break;
-          case "Incorrect password":
-            setFailStatus("Wrong_Password");
-            break;
-        }
+        if (e.response?.data) setFailStatus(String(e.response?.data));
+        else
+          setFailStatus(
+            "Something went wrong, please contact the administrator."
+          );
       });
   };
   return (

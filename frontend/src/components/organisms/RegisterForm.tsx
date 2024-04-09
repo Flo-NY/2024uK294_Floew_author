@@ -17,7 +17,11 @@ function RegisterForm() {
         nav("/login");
       })
       .catch((e: AxiosError) => {
-        String(e.response?.data);
+        if (e.response?.data) setFailStatus(String(e.response?.data));
+        else
+          setFailStatus(
+            "Something went wrong, please contact the administrator."
+          );
       });
   };
   return (
@@ -32,9 +36,9 @@ function RegisterForm() {
         <Form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
           <LoginInput failStatus={failStatus} />
           <FormTwoButtons
-            linkButtonURL="/register"
-            linkButtonText="Register"
-            submitButtonText="Sign In"
+            linkButtonURL="/login"
+            linkButtonText="Login"
+            submitButtonText="Sign Up"
           />
         </Form>
       </Formik>

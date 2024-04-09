@@ -18,10 +18,7 @@ function responseAuthorToAuthor({
   };
 }
 
-function parseDateStringToDate(dateString: string): Date {
-  const [year, month, day] = dateString.split("-").map(Number);
-  return new Date(year, month - 1, day); // month - 1 because months are zero-based in Date object
-}
+
 export async function getAllAuthors() {
   const requestAuthors = await Api.get<ResponseAuthor[]>(`author`);
   return requestAuthors.data.map(responseAuthorToAuthor);

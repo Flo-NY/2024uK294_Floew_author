@@ -7,10 +7,15 @@ import {
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Author, CreateAuthor } from "../../model";
-import { createAuthor, getAuthorPage } from "../../services/AuthorService";
+import {
+  createAuthor,
+  getAuthorPage,
+  updateAuthor,
+} from "../../services/AuthorService";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import AuthorListItem from "../molecules/AuthorListItem";
-import EditDialog, { FormValues } from "../atoms/EditDialog";
+import EditDialog, { FormValues } from "../molecules/EditDialog";
+import DetailsDialog from "../molecules/DetailsDialog";
 
 type AuthorListProps = {
   setOpenAddDialog: (isOpen: React.SetStateAction<boolean>) => void;
@@ -21,9 +26,16 @@ function AuthorList({ setOpenAddDialog, openAddDialog }: AuthorListProps) {
   const [page, setPage] = useState<number>(1);
   const [pageCount, setPageCount] = useState<number>(10);
   const [authorList, setAuthorList] = useState<Author[]>([]);
-  const nav = useNavigate();
-
+  const [openEdit, setOpenEdit] = useState(false);
+  const [openDetails, setOpenDialog] = useState(false);
+  const [focusedAuthor, setForusedAuthor] = useState<Author>({
+    id: 0,
+    author_name: "",
+    birth_date: new Date(),
+  });
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const nav = useNavigate();
 
   function requestAuthorList() {
     getAuthorPage(page)

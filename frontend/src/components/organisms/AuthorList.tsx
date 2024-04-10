@@ -19,6 +19,7 @@ type AuthorListProps = {
 
 function AuthorList({ setOpenAddDialog, openAddDialog }: AuthorListProps) {
   const [page, setPage] = useState<number>(1);
+  const [pageCount, setPageCount] = useState<number>(10);
   const [authorList, setAuthorList] = useState<Author[]>([]);
   const nav = useNavigate();
 
@@ -26,7 +27,10 @@ function AuthorList({ setOpenAddDialog, openAddDialog }: AuthorListProps) {
 
   function requestAuthorList() {
     getAuthorPage(page)
-      .then(setAuthorList)
+      .then((responce) => {
+        setAuthorList(responce.authorsPage);
+        setPageCount(Math.ceil(responce.totalAuthorCount / 10));
+      })
       .catch((error) => {
         if (error.response && error.response.status === 401) {
           console.log("Logging out...");
@@ -79,7 +83,7 @@ function AuthorList({ setOpenAddDialog, openAddDialog }: AuthorListProps) {
             ))}
       </List>
       <Pagination
-        count={10}
+        count={pageCount}
         page={page}
         onChange={(_, value) => setPage(value)}
       />

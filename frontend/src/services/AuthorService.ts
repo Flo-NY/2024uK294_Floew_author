@@ -1,7 +1,6 @@
 import { Author, CreateAuthor } from "../model";
 import { dateToDateISOString, parseDateStringToDate } from "../utils/DateConversion";
 import Api from "./Api";
-import { getToken } from "./UserService";
 type ResponseAuthor = {
   id: number;
   author_name: string;
@@ -28,8 +27,13 @@ export async function getAuthorPage(pageNumber: number) {
   const requestAuthors = await Api.get<ResponseAuthor[]>(
     `author?_page=${pageNumber}`
   );
-  return requestAuthors.data.map(responseAuthorToAuthor);
+  return {
+    authorsPage: requestAuthors.data.map(responseAuthorToAuthor),
+    totalAuthorCount: Number(requestAuthors.headers["x-total-count"])
+  }
 }
+
+
 export async function deleteAuthor(authorId: number) {
   await Api.delete(`author/${authorId}`);
 }

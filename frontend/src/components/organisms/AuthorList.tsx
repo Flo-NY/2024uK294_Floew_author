@@ -8,7 +8,7 @@ import {
 import { useEffect, useState } from "react";
 import { Author, CreateAuthor } from "../../model";
 import { createAuthor, getAuthorPage } from "../../services/AuthorService";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import AuthorListItem from "../molecules/AuthorListItem";
 import EditDialog, { FormValues } from "../atoms/EditDialog";
 
@@ -42,6 +42,16 @@ function AuthorList({ setOpenAddDialog, openAddDialog }: AuthorListProps) {
       .finally(() => setIsLoading(false));
   }
   useEffect(requestAuthorList, [page]);
+  const [searchParams, setSearchParams] = useSearchParams();
+  useEffect(() => {
+    const pageParam = searchParams.get("page");
+    if (pageParam) {
+      const pageNumber = parseInt(pageParam);
+      if (!isNaN(pageNumber)) {
+        setPage(pageNumber);
+      }
+    }
+  }, []);
 
   function onSubmitAdd(values: FormValues) {
     addAuthor({
@@ -85,7 +95,10 @@ function AuthorList({ setOpenAddDialog, openAddDialog }: AuthorListProps) {
       <Pagination
         count={pageCount}
         page={page}
-        onChange={(_, value) => setPage(value)}
+        onChange={(_, value) => {
+          setPage(value);
+          setSearchParams({ page: value.toString() });
+        }}
       />
       <EditDialog
         open={openAddDialog}

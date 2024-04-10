@@ -8,7 +8,7 @@ import {
   Typography,
 } from "@mui/material";
 import React from "react";
-import FormSingleInput from "./FormSingleInput";
+import FormSingleInput from "../atoms/FormSingleInput";
 import CloseIcon from "@mui/icons-material/Close";
 import { Author } from "../../model";
 import { dateToDateISOString } from "../../utils/DateConversion";

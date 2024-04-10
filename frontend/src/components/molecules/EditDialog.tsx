@@ -9,7 +9,7 @@ import {
 import CloseIcon from "@mui/icons-material/Close";
 import { Author } from "../../model";
 import { Form, Formik } from "formik";
-import FormSingleInput from "./FormSingleInput";
+import FormSingleInput from "../atoms/FormSingleInput";
 
 type EditDialogProps = {
   author: Author;

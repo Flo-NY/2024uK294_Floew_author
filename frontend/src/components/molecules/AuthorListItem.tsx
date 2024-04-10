@@ -4,8 +4,8 @@ import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { deleteAuthor, updateAuthor } from "../../services/AuthorService";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import EditDialog, { FormValues } from "../atoms/EditDialog";
-import DetailsDialog from "../atoms/DetailsDialog";
+import EditDialog, { FormValues } from "./EditDialog";
+import DetailsDialog from "./DetailsDialog";
 
 type AuthorListItemProps = {
   author: Author;

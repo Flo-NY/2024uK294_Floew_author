@@ -1,14 +1,14 @@
 import axios from "axios";
-import { getToken } from "./UserService";
+
 
 const defaultInstance = axios.create({
-  baseURL: import.meta.env.VITE_BASE_API_URL || "http://localhost:3000",
+  baseURL: import.meta.env.VITE_BASE_API_URL,
 });
 
 defaultInstance.interceptors.request.use(
   (config) => {
     let correctPath = config.url !== "login" && config.url !== "register";
-    const token = getToken();
+    const token = sessionStorage.getItem("token");
     if (token && correctPath) {
       config.headers.Authorization = `Bearer ${token}`;
     }

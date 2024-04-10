@@ -9,11 +9,11 @@ function App() {
       <div>
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<Navigate to={"login"} />} />
-            <Route path="register" element={<RegisterPage />} />
-            <Route path="login" element={<LoginPage />} />
-            <Route path="authors" element={<AuthorsPage />} />
-            <Route path="*" element={<div>not Found</div>} />
+            <Route path="/" element={<Navigate to={"/login"} />} />
+            <Route path="/register" element={<RegisterPage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/authors" element={<AuthorsPage />} />
+            <Route path="*" element={<Navigate to={"/login"} />} />
           </Routes>
         </BrowserRouter>
       </div>

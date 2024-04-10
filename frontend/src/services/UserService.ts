@@ -1,14 +1,11 @@
 import { AuthenticationResponse, UserLogin } from "../model";
 import Api from "./Api";
 
-export function getToken() {
-  return sessionStorage.getItem("token");
-}
 export function setToken(token: string) {
   sessionStorage.setItem("token", token);
 }
 export async function tokenValid() {
-  const token = getToken();
+  const token = sessionStorage.getItem("token");
   if (!token) return false;
   const request = await Api.get(`users`, {
     headers: {

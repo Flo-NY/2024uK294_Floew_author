@@ -1,5 +1,5 @@
 import { Author } from "../../model";
-import { ListItem, ListItemButton, ListItemText } from "@mui/material";
+import { Chip, ListItem, ListItemButton, ListItemText } from "@mui/material";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { deleteAuthor, updateAuthor } from "../../services/AuthorService";
 import { useNavigate } from "react-router-dom";
@@ -82,7 +82,10 @@ function AuthorListItem({
           className="p-0"
           onClick={() => setOpenDialog((prev) => !prev)}
         >
-          <ListItemText primary={author.author_name} />
+          <div className="gap-3 flex flex-row">
+            <Chip label={author.id} color="primary" />
+            <ListItemText primary={author.author_name} />
+          </div>
         </ListItemButton>
       </ListItem>
       <EditDialog

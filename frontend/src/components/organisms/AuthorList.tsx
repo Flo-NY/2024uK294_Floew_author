@@ -41,8 +41,7 @@ function AuthorList({ setOpenAddDialog, openAddDialog }: AuthorListProps) {
       })
       .finally(() => setIsLoading(false));
   }
-  useEffect(requestAuthorList, [page]);
-  const [searchParams, setSearchParams] = useSearchParams();
+  // Pagination
   useEffect(() => {
     const pageParam = searchParams.get("page");
     if (pageParam) {
@@ -52,7 +51,29 @@ function AuthorList({ setOpenAddDialog, openAddDialog }: AuthorListProps) {
       }
     }
   }, []);
+  useEffect(requestAuthorList, [page]);
 
+  // Edit author
+  function onSubmitEdit(values: FormValues) {
+    setOpenEdit((prev) => !prev);
+    setIsLoading(true);
+    updateAuthor({
+      id: focusedAuthor.id,
+      author_name: values.author_name,
+      birth_date: values.birth_date,
+    })
+      .then(requestAuthorList)
+      .catch((error) => {
+        if (error.response && error.response.status === 401) {
+          console.log("Logging out...");
+          nav("/login");
+        } else {
+          console.error(error);
+        }
+      })
+      .finally(() => setIsLoading(false));
+  }
+  // Add author
   function onSubmitAdd(values: FormValues) {
     addAuthor({
       author_name: values.author_name,
@@ -85,6 +106,14 @@ function AuthorList({ setOpenAddDialog, openAddDialog }: AuthorListProps) {
             ))
           : authorList.map((author, index) => (
               <AuthorListItem
+                handleOpenDetailsDialog={() => {
+                  setForusedAuthor(author);
+                  setOpenDialog((prev) => !prev);
+                }}
+                handleOpenEditDialog={() => {
+                  setForusedAuthor(author);
+                  setOpenEdit((prev) => !prev);
+                }}
                 setIsLoading={setIsLoading}
                 requestAuthorList={requestAuthorList}
                 author={author}
@@ -100,11 +129,25 @@ function AuthorList({ setOpenAddDialog, openAddDialog }: AuthorListProps) {
           setSearchParams({ page: value.toString() });
         }}
       />
+      {/*  Add author */}
       <EditDialog
         open={openAddDialog}
         author={{ id: 0, author_name: "", birth_date: new Date() }}
         onSubmit={onSubmitAdd}
         onClose={() => setOpenAddDialog((prev) => !prev)}
+      />
+      {/* edit focused author */}
+      <EditDialog
+        open={openEdit}
+        author={focusedAuthor}
+        onSubmit={onSubmitEdit}
+        onClose={() => setOpenEdit((prev) => !prev)}
+      />
+      {/* focused details */}
+      <DetailsDialog
+        open={openDetails}
+        author={focusedAuthor}
+        onClose={() => setOpenDialog((prev) => !prev)}
       />
       <Backdrop
         open={isLoading}

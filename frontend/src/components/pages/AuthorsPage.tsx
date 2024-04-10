@@ -3,7 +3,7 @@ import AuthorList from "../organisms/AuthorList";
 import Navbar from "../organisms/Navbar";
 
 function AuthorsPage() {
-  const [openAddDialog, setOpenAddDialog] = useState(false);
+  const [openAddDialog, setOpenAddDialog] = useState<boolean>(false);
   const handleAuthorListFunction = () => {
     setOpenAddDialog(true);
   };

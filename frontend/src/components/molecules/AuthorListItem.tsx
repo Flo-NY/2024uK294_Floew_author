@@ -5,6 +5,7 @@ import { deleteAuthor, updateAuthor } from "../../services/AuthorService";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import EditDialog, { FormValues } from "../atoms/EditDialog";
+import DetailsDialog from "../atoms/DetailsDialog";
 
 type AuthorListItemProps = {
   author: Author;
@@ -89,6 +90,11 @@ function AuthorListItem({
         author={author}
         onSubmit={onSubmitEdit}
         onClose={() => setOpenEdit((prev) => !prev)}
+      />
+      <DetailsDialog
+        open={openDetails}
+        author={author}
+        onClose={() => setOpenDialog((prev) => !prev)}
       />
     </>
   );

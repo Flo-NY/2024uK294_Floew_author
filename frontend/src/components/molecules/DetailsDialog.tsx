@@ -11,7 +11,7 @@ import React from "react";
 import FormSingleInput from "../atoms/FormSingleInput";
 import CloseIcon from "@mui/icons-material/Close";
 import { Author } from "../../model";
-import { dateToDateISOString } from "../../utils/DateConversion";
+import { convertDateToDateString } from "../../utils/DateConversion";
 
 type DetailsDialogProps = {
   author: Author;
@@ -45,7 +45,7 @@ function DetailsDialog({
       <DialogTitle>{author_name}</DialogTitle>
       <DialogContent dividers>
         <Typography variant="body1">
-          Birth Date: {dateToDateISOString(birth_date)}
+          Birth Date: {convertDateToDateString(birth_date)}
         </Typography>
       </DialogContent>
     </Dialog>

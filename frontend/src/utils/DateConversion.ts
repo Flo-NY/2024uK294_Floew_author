@@ -1,4 +1,4 @@
-export function dateToDateISOString(dateT: Date): string {
+export function convertDateToDateString(dateT: Date): string {
     const date = new Date(dateT);
     const year = date.getFullYear();
     const month = (date.getMonth() + 1).toString().padStart(2, "0"); // add leading zero if necessary

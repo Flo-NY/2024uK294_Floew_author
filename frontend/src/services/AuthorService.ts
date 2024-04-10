@@ -1,4 +1,4 @@
-import { Author } from "../model";
+import { Author, CreateAuthor } from "../model";
 import { dateToDateISOString, parseDateStringToDate } from "../utils/DateConversion";
 import Api from "./Api";
 import { getToken } from "./UserService";
@@ -34,14 +34,11 @@ export async function deleteAuthor(authorId: number) {
   await Api.delete(`author/${authorId}`);
 }
 
-type CreateAuthor = {
-  author_name: string;
-  birth_date: string;
-};
+
 export async function createAuthor(author: CreateAuthor) {
   await Api.post(`author`, {
     author_name: author.author_name,
-    birth_date: author.birth_date,
+    birth_date: dateToDateISOString(author.birth_date),
   });
 }
 

@@ -15,3 +15,7 @@ export type UserLogin = {
   email: string;
   password: string;
 };
+export type CreateAuthor = {
+  author_name: string;
+  birth_date: Date;
+};

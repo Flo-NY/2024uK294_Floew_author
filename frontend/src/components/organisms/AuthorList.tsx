@@ -6,12 +6,18 @@ import {
   Skeleton,
 } from "@mui/material";
 import { useEffect, useState } from "react";
-import { Author } from "../../model";
-import { getAuthorPage } from "../../services/AuthorService";
+import { Author, CreateAuthor } from "../../model";
+import { createAuthor, getAuthorPage } from "../../services/AuthorService";
 import { useNavigate } from "react-router-dom";
 import AuthorListItem from "../molecules/AuthorListItem";
+import EditDialog, { FormValues } from "../atoms/EditDialog";
 
-function AuthorList() {
+type AuthorListProps = {
+  setOpenAddDialog: (isOpen: React.SetStateAction<boolean>) => void;
+  openAddDialog: boolean;
+};
+
+function AuthorList({ setOpenAddDialog, openAddDialog }: AuthorListProps) {
   const [page, setPage] = useState<number>(1);
   const [authorList, setAuthorList] = useState<Author[]>([]);
   const nav = useNavigate();
@@ -33,9 +39,32 @@ function AuthorList() {
   }
   useEffect(requestAuthorList, [page]);
 
+  function onSubmitAdd(values: FormValues) {
+    addAuthor({
+      author_name: values.author_name,
+      birth_date: new Date(values.birth_date),
+    });
+    setOpenAddDialog((prev) => !prev);
+  }
+
+  function addAuthor(author: CreateAuthor) {
+    setIsLoading(true);
+    createAuthor(author)
+      .then(requestAuthorList)
+      .catch((error) => {
+        if (error.response && error.response.status === 401) {
+          console.log("Logging out...");
+          nav("/login");
+        } else {
+          console.error(error);
+        }
+      })
+      .finally(() => setIsLoading(false));
+  }
+
   return (
-    <div>
-      <List>
+    <div className="bg-white rounded flex flex-col items-center">
+      <List className="w-full">
         {isLoading
           ? Array.from(new Array(10)).map((_, index) => (
               <Skeleton key={index} variant="text" className="py-[12px]" />
@@ -53,6 +82,12 @@ function AuthorList() {
         count={10}
         page={page}
         onChange={(_, value) => setPage(value)}
+      />
+      <EditDialog
+        open={openAddDialog}
+        author={{ id: 0, author_name: "", birth_date: new Date() }}
+        onSubmit={onSubmitAdd}
+        onClose={() => setOpenAddDialog((prev) => !prev)}
       />
       <Backdrop
         open={isLoading}

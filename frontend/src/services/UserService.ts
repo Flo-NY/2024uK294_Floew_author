@@ -33,3 +33,6 @@ export async function registerUser(userDetails: UserLogin) {
   );
   setToken(userResponce.data.accessToken);
 }
+export async function logoutUser() {
+  sessionStorage.removeItem("token");
+}
